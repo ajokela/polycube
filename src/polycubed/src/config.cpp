@@ -434,8 +434,13 @@ void Config::load_from_cli(int argc, char *argv[]) {
   int option_index = 0;
   char ch;
   optind = 0;
-  while ((ch = getopt_long(argc, argv, "l:p:a:dhv", options, &option_index)) !=
-         -1) {
+  //while ((ch = getopt_long(argc, argv, "l:p:a:dhv", options, &option_index)) !=
+  //       -1) {
+
+  while(true) {
+
+    const auto ch = getopt_long(argc, argv, "l:p:a:dhv", options, &option_index);
+
     switch (ch) {
     case 'l':
       setLogLevel(optarg);
@@ -483,6 +488,10 @@ void Config::load_from_cli(int argc, char *argv[]) {
       setCubesDumpEnabled();
       break;
     }
+
+    if(-1 == ch) {
+      break;
+    }
   }
 }
 
@@ -493,8 +502,12 @@ bool Config::load(int argc, char *argv[]) {
   char ch;
 
   // do a first pass looking for "configfile", "-h", "-v"
-  while ((ch = getopt_long(argc, argv, "l:p:a:dhv", options, &option_index)) !=
-         -1) {
+  //while ((ch = getopt_long(argc, argv, "l:p:a:dhv", options, &option_index)) !=
+  //       -1) {
+  while(true) {
+
+    const auto ch = getopt_long(argc, argv, "l:p:a:dhv", options, &option_index);
+
     switch (ch) {
     case 'v':
       show_version();
@@ -504,6 +517,10 @@ bool Config::load(int argc, char *argv[]) {
       return false;
     case 4:
       configfile = optarg;
+      break;
+    }
+
+    if(-1 == ch) {
       break;
     }
   }
